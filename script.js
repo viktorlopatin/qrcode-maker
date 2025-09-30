@@ -68,7 +68,7 @@ downloadBtn.addEventListener('click', async () => {
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast('Завантаження почалося');
+      showToast('Download started');
       return;
     }
     if(canvas){
@@ -79,12 +79,12 @@ downloadBtn.addEventListener('click', async () => {
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast('Завантаження почалося');
+      showToast('Download started');
       return;
     }
-    showToast('Немає згенерованого зображення', 1600);
+    showToast('No image generated', 1600);
   }catch(err){
-    showToast('Помилка при завантаженні', 1600);
+    showToast('Error while loading', 1600);
     console.error(err);
   }
 });
@@ -96,13 +96,13 @@ copyBtn.addEventListener('click', async () => {
   try{
     if(canvas && navigator.clipboard && window.ClipboardItem){
       canvas.toBlob(async (blob)=>{
-        if(!blob){ showToast('Не вдалося отримати зображення', 1600); return; }
+        if(!blob){ showToast('Failed to get image', 1600); return; }
         try{
           await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
-          showToast('QR скопійовано у буфер');
+          showToast('QR copied');
         }catch(err){
           console.error(err);
-          showToast('Копіювання не підтримується',1600);
+          showToast('Copying is not supported',1600);
         }
       });
       return;
@@ -112,17 +112,17 @@ copyBtn.addEventListener('click', async () => {
       const blob = await response.blob();
       try{
         await navigator.clipboard.write([new ClipboardItem({[blob.type]: blob})]);
-        showToast('QR скопійовано у буфер');
+        showToast('QR copied');
       }catch(err){
         console.error(err);
-        showToast('Копіювання не підтримується',1600);
+        showToast('Copying is not supported',1600);
       }
       return;
     }
     await navigator.clipboard.writeText(qrText.textContent||'');
-    showToast('Вміст скопійовано у буфер як текст');
+    showToast('Content copied to clipboard as text');
   }catch(err){
     console.error(err);
-    showToast('Не вдалося скопіювати', 1600);
+    showToast('Could not copy', 1600);
   }
 });
