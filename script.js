@@ -8,7 +8,7 @@ const downloadBtn = document.getElementById('download-btn');
 const copyBtn = document.getElementById('copy-btn');
 const toast = document.getElementById('toast');
 
-let qrInstance = null;
+let qrCanvas = null;
 
 function showToast(msg, timeout = 1800){
   toast.textContent = msg;
@@ -23,14 +23,23 @@ function showToast(msg, timeout = 1800){
 
 function createQR(text){
   qrcodeContainer.innerHTML = '';
-  qrInstance = new QRCode(qrcodeContainer, {
-    text: text,
+  qrCanvas = document.createElement('canvas');
+  qrcodeContainer.appendChild(qrCanvas);
+
+  QRCode.toCanvas(qrCanvas, text, {
     width: 240,
-    height: 240,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
+    margin: 2,
+    color: {
+      dark: "#000000",
+      light: "#ffffff"
+    }
+  }, function (error) {
+    if (error) {
+      console.error(error);
+      showToast('Error generating QR', 1600);
+    }
   });
+
   qrText.textContent = text;
 }
 
@@ -46,7 +55,11 @@ function closeModalFn(){
 }
 
 makeBtn.addEventListener('click', () => {
-  const text = input.value;
+  const text = input.value.trim();
+  if (!text) {
+    showToast('Enter text first', 1500);
+    return;
+  }
   createQR(text);
   setTimeout(openModal, 80);
 });
@@ -57,66 +70,42 @@ modal.addEventListener('click', (e) => {
 });
 
 downloadBtn.addEventListener('click', async () => {
-  const img = qrcodeContainer.querySelector('img');
-  const canvas = qrcodeContainer.querySelector('canvas');
-
+  if(!qrCanvas){
+    showToast('No QR generated', 1600);
+    return;
+  }
   try{
-    if(img && img.src){
-      const a = document.createElement('a');
-      a.href = img.src;
-      a.download = 'qrcode.png';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      showToast('Download started');
-      return;
-    }
-    if(canvas){
-      const dataUrl = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = dataUrl;
-      a.download = 'qrcode.png';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      showToast('Download started');
-      return;
-    }
-    showToast('No image generated', 1600);
+    const dataUrl = qrCanvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'qrcode.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast('Download started');
   }catch(err){
-    showToast('Error while loading', 1600);
     console.error(err);
+    showToast('Error while downloading', 1600);
   }
 });
 
 copyBtn.addEventListener('click', async () => {
-  const img = qrcodeContainer.querySelector('img');
-  const canvas = qrcodeContainer.querySelector('canvas');
-
+  if(!qrCanvas){
+    showToast('No QR generated', 1600);
+    return;
+  }
   try{
-    if(canvas && navigator.clipboard && window.ClipboardItem){
-      canvas.toBlob(async (blob)=>{
+    if(navigator.clipboard && window.ClipboardItem){
+      qrCanvas.toBlob(async (blob)=>{
         if(!blob){ showToast('Failed to get image', 1600); return; }
         try{
           await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
           showToast('QR copied');
         }catch(err){
           console.error(err);
-          showToast('Copying is not supported',1600);
+          showToast('Copying not supported',1600);
         }
       });
-      return;
-    }
-    if(img && img.src && navigator.clipboard && window.ClipboardItem){
-      const response = await fetch(img.src);
-      const blob = await response.blob();
-      try{
-        await navigator.clipboard.write([new ClipboardItem({[blob.type]: blob})]);
-        showToast('QR copied');
-      }catch(err){
-        console.error(err);
-        showToast('Copying is not supported',1600);
-      }
       return;
     }
     await navigator.clipboard.writeText(qrText.textContent||'');
@@ -126,3 +115,5 @@ copyBtn.addEventListener('click', async () => {
     showToast('Could not copy', 1600);
   }
 });
+
+
