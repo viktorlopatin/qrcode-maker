@@ -1,11 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>QrCode Maker</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QrCode Maker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-	<p>Hello qrcode maker!!!</p>
+  <main class="page">
+    <div class="container">
+      <h1 class="logo">QrCode Maker</h1>
+
+      <div class="input-row">
+        <input id="text-input" type="text" placeholder="Введіть текст або посилання..." autocomplete="off" />
+        <button id="make-btn" class="primary">Make</button>
+      </div>
+
+      <p class="hint">Підтримуються пробіли й усі символи — генерується усе.</p>
+    </div>
+  </main>
+
+  <!-- Модаль -->
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button id="close-modal" class="modal-close" aria-label="Close">×</button>
+
+      <header class="modal-header">
+        <h2 id="modal-title">Ваш QR-код</h2>
+      </header>
+
+      <section class="modal-body">
+        <div id="qrcode" class="qrcode-wrap" aria-hidden="false"></div>
+
+        <div id="qr-meta" class="meta">
+          <div class="meta-line">
+            <label>Вміст</label>
+            <div id="qr-text" class="meta-text"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="modal-footer">
+        <div class="qr-buttons">
+          <button id="download-btn" class="secondary">Download</button>
+          <button id="copy-btn" class="secondary">Copy</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
