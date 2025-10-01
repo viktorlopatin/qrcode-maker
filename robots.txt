@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow system folders if you have them
+Disallow: /admin/
+Disallow: /cgi-bin/
+
+# Sitemap location
+Sitemap: https://qrcode-maker.site/sitemap.xml

@@ -1,55 +1,90 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QrCode Maker</title>
+  <title>Free QR Code Generator | QrCode Maker</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Free online QR Code Generator: create QR codes for websites, messages, contacts and more. Fast, easy and reliable QR maker." />
+  <meta name="keywords" content="qr code, qr code generator, create qr online, free qr maker" />
+  <meta name="author" content="QrCode Maker" />
+  <link rel="canonical" href="https://example.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free QR Code Generator | QrCode Maker" />
+  <meta property="og:description" content="Create QR codes online for free. Use them for websites, contacts, Wi-Fi access and more." />
+  <meta property="og:url" content="https://example.com/" />
+  <meta property="og:image" content="https://example.com/preview.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free QR Code Generator | QrCode Maker" />
+  <meta name="twitter:description" content="Create QR codes online for free. Use them for websites, contacts, Wi-Fi access and more." />
+  <meta name="twitter:image" content="https://example.com/preview.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" alt="QR Code Icon" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "QrCode Maker",
+    "url": "https://example.com/",
+    "description": "Free online QR Code Generator for text and links.",
+    "applicationCategory": "Utility",
+    "operatingSystem": "Any"
+  }
+  </script>
 </head>
 <body>
-	<!-- Google tag (gtag.js) -->
+	<!-- Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-EL3BN43W9V"></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
-
 	  gtag('config', 'G-EL3BN43W9V');
 	</script>
 
   <main class="page">
     <div class="container">
-      <h1 class="logo">QrCode Maker</h1>
+      <h1 class="logo">Free QR Code Generator</h1>
 
       <div class="input-row">
-        <input id="text-input" type="text" placeholder="Enter text or link..." autocomplete="off" />
-        <button id="make-btn" class="primary">Make</button>
+        <input id="text-input" type="text" placeholder="Enter text or link..." autocomplete="off" aria-label="Enter text or link for QR code" />
+        <button id="make-btn" class="primary">Generate</button>
       </div>
 
-      <p class="hint">Generate QR codes quickly and easily from any text or link. Use them for websites, messages, contacts, or any other information.</p>
+      <h2 class="hint">
+        Fast and free QR code generator. Create QR codes for websites, messages, Wi-Fi access, business cards, or any other information.
+      </h2>
+      
     </div>
   </main>
 
-  <!-- Модаль -->
+  <!-- Modal -->
   <div id="modal" class="modal hidden" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button id="close-modal" class="modal-close" aria-label="Close">×</button>
-
       <header class="modal-header">
-        <h2 id="modal-title">Your QR-Сode</h2>
+        <h2 id="modal-title">Your QR Code</h2>
       </header>
-
       <section class="modal-body">
         <div id="qrcode" class="qrcode-wrap" aria-hidden="false"></div>
-
         <div id="qr-meta" class="meta">
           <div class="meta-line">
-            <label>Contents</label>
+            <label>Content</label>
             <div id="qr-text" class="meta-text"></div>
           </div>
         </div>
       </section>
-
       <footer class="modal-footer">
         <div class="qr-buttons">
           <button id="download-btn" class="secondary">Download</button>
