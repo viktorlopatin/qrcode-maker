@@ -195,34 +195,36 @@ const installBtn = document.getElementById('installBtn');
 const installBtnDiv = document.getElementById('installPrompt');
 
 
-// слухаємо подію beforeinstallprompt (лише коли не додаток)
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtnDiv.style.display = 'block';
 
-  installBtn.addEventListener('click', () => {
-    gtag_report_conversion();
-    deferredPrompt.prompt();
 
-    deferredPrompt.userChoice.then((choiceResult) => {
-      console.log('User choice:', choiceResult.outcome);
-      deferredPrompt = null;
-    });
-  });
-});
-
-// 🔹 Перевірка раз у секунду
-setInterval(() => {
+// функція показати/сховати кнопку
+function updateInstallButton() {
   const isInStandaloneMode =
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  if (isInStandaloneMode) {
-    // Якщо сайт вже у режимі PWA → ховаємо блок установки
+  if (!isInStandaloneMode) {
+    // якщо сайт у браузері → показуємо кнопку
+    installBtnDiv.style.display = 'block';
+
+    installBtn.onclick = () => {
+      gtag_report_conversion();
+      deferredPrompt.prompt();
+
+      deferredPrompt.userChoice.then((choiceResult) => {
+        console.log('User choice:', choiceResult.outcome);
+        deferredPrompt = null;
+        installBtnDiv.style.display = 'none';
+      });
+    };
+  } else {
+    // якщо PWA → ховаємо
     installBtnDiv.style.display = 'none';
   }
-}, 1000);
+}
+
+// перевірка щосекунди
+setInterval(updateInstallButton, 1000);
 
 
 
