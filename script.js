@@ -39,8 +39,9 @@ function createQR(text){
       showToast('Error generating QR', 1600);
     }
   });
-
+  gtag_report_conversion();
   qrText.textContent = text;
+
 }
 
 function openModal(){
