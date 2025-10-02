@@ -123,7 +123,7 @@ makeBtn.addEventListener('click', (e) => {
   }
 
   // показуємо модалку через 1с
-  setTimeout(openModal, 1000);
+  setTimeout(openModal, 250);
 });
 
 
