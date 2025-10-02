@@ -117,4 +117,32 @@ copyBtn.addEventListener('click', async () => {
   }
 });
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('Service Worker registered'))
+      .catch((error) => console.error('Service Worker registration failed:', error));
+  });
+}
+
+
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+
+  installBtn.addEventListener('click', () => {
+    installBtn.style.display = 'none';
+    deferredPrompt.prompt();
+
+    deferredPrompt.userChoice
+      .then((choiceResult) => {
+        console.log('User choice:', choiceResult.outcome);
+        deferredPrompt = null;
+      });
+  });
+});
 
