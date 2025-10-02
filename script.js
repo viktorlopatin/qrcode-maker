@@ -18,7 +18,7 @@ function gtag_report_conversion(url) {
       }
     };
     gtag('event', 'conversion', {
-        'send_to': 'AW-17558991000/sw9JCOiAypsbEJjh47RB',
+        'send_to': 'AW-17558991000/fMHOCJKS4qUbEJjh47RB',
         'event_callback': callback
     });
 
