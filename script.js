@@ -203,7 +203,10 @@ function updateInstallButton() {
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  if (!isInStandaloneMode) {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  if (!isInStandaloneMode && deferredPrompt) {
     // якщо сайт у браузері → показуємо кнопку
     installBtnDiv.style.display = 'block';
 
