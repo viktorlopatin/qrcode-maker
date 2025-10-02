@@ -199,7 +199,7 @@ const installBtnDiv = document.getElementById('installPrompt');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtnDiv.style.display = 'block';
+  installBtnDiv.style.display = 'none';
 
   installBtn.addEventListener('click', () => {
     gtag_report_conversion();
@@ -218,9 +218,9 @@ setInterval(() => {
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  if (isInStandaloneMode) {
+  if (!isInStandaloneMode) {
     // Якщо сайт вже у режимі PWA → ховаємо блок установки
-    installBtnDiv.style.display = 'none';
+    installBtnDiv.style.display = 'block';
   }
 }, 1000);
 
