@@ -69,15 +69,57 @@ function closeModalFn(){
   modal.setAttribute('aria-hidden', 'true');
 }
 
-makeBtn.addEventListener('click', () => {
+makeBtn.addEventListener('click', (e) => {
   const text = input.value.trim();
   if (!text) {
     showToast('Enter text first', 1500);
     return;
   }
+
   createQR(text);
-  setTimeout(openModal, 80);
+
+  // координати кнопки (щоб хвиля йшла з-під неї)
+  const rect = makeBtn.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  // створюємо хвилю
+  const wave = document.createElement('div');
+  wave.className = 'wave';
+  wave.style.left = `${centerX}px`;
+  wave.style.top = `${centerY}px`;
+  document.body.appendChild(wave);
+
+  // створюємо частинки
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = `${centerX}px`;
+    particle.style.top = `${centerY}px`;
+
+    // випадковий розліт
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 80 + Math.random() * 100;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+
+    particle.style.setProperty('--dx', `${dx}px`);
+    particle.style.setProperty('--dy', `${dy}px`);
+
+    document.body.appendChild(particle);
+
+    // прибираємо частинки після анімації
+    setTimeout(() => particle.remove(), 1200);
+  }
+
+  // прибираємо хвилю
+  setTimeout(() => wave.remove(), 1200);
+
+  // показуємо модалку через 1с
+  setTimeout(openModal, 1000);
 });
+
+
 
 closeModal.addEventListener('click', closeModalFn);
 modal.addEventListener('click', (e) => {
