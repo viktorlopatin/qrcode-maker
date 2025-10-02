@@ -249,3 +249,68 @@ button.secondary:hover{ transform: translateY(-2px); }
   font-weight:600; z-index:80; opacity:0; transition: opacity .18s ease, transform .18s ease;
 }
 .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+
+/* Блок Install App */
+/* Блок Install App */
+.install-card {
+  margin: 24px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+
+  /* М’який фон */
+  background: linear-gradient(135deg, #fffdfd, #fdf3f3);
+  border: 1px solid #f1dcdc;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+
+  max-width: 540px;
+  text-align: left;
+
+  /* Тонка чорна лінія зверху */
+  border-top: 2px solid #000;
+}
+
+
+/* Текст */
+.install-card .install-text {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Кнопка (червоний градієнт) */
+button.primary.danger {
+  background: linear-gradient(90deg, #ff6b6b, #ff4757, #ff6b6b);
+  background-size: 200% 200%;
+  animation: buttonGradientMove 6s ease infinite;
+
+  color: #fff;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+button.primary.danger:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Тонка лінія між блоками */
+.divider {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.15);
+  margin: 24px auto;
+  max-width: 540px;
+}
+

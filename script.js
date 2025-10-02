@@ -142,6 +142,7 @@ if ('serviceWorker' in navigator) {
 
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
+const installBtnDiv = document.getElementById('installPrompt');
 
 
 // Перевіряємо, чи сайт запущено як додаток
@@ -154,11 +155,10 @@ if (!isInStandaloneMode) {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    installBtn.style.display = 'block';
+    installBtnDiv.style.display = 'block';
 
     installBtn.addEventListener('click', () => {
       gtag_report_conversion();
-      installBtn.style.display = 'none';
       deferredPrompt.prompt();
 
       deferredPrompt.userChoice.then((choiceResult) => {
@@ -169,7 +169,7 @@ if (!isInStandaloneMode) {
   });
 } else {
   // Якщо сайт запущено як додаток, ховаємо кнопку
-  installBtn.style.display = 'none';
+  installBtnDiv.style.display = 'none';
 }
 
 
