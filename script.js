@@ -214,6 +214,7 @@ function updateInstallButton() {
 
     installBtn.onclick = () => {
       if (deferredPrompt) {
+        gtag_report_conversion();
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           console.log('User choice:', choiceResult.outcome);
