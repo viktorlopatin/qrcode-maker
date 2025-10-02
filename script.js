@@ -218,7 +218,7 @@ setInterval(() => {
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  if (!isInStandaloneMode) {
+  if (isInStandaloneMode) {
     // Якщо сайт вже у режимі PWA → ховаємо блок установки
     installBtnDiv.style.display = 'none';
   }
