@@ -314,3 +314,75 @@ button.primary.danger:hover {
   max-width: 540px;
 }
 
+/* 📱 Мобільна адаптація */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+
+  .container {
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+
+  .logo {
+    font-size: 26px;
+  }
+
+  /* Інпут + кнопка одна під одною */
+  .input-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-row input {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  button.primary {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 0;
+  }
+
+  /* Hint */
+  .hint {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  /* Install card */
+  .install-card {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .install-card .install-text {
+    font-size: 14px;
+  }
+
+  .install-card #installBtn {
+    width: 100%;
+  }
+
+  /* Modal */
+  .modal-card {
+    width: 100%;
+    max-width: 95%;
+    padding: 14px;
+  }
+
+  .modal-header h2 {
+    font-size: 16px;
+  }
+
+  .meta-text {
+    font-size: 12px;
+  }
+}
+
+
