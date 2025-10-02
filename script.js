@@ -39,7 +39,6 @@ function createQR(text){
       showToast('Error generating QR', 1600);
     }
   });
-  gtag_report_conversion();
   qrText.textContent = text;
 
 }
@@ -135,6 +134,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
   installBtn.style.display = 'block';
 
   installBtn.addEventListener('click', () => {
+
+    gtag_report_conversion();
+
     installBtn.style.display = 'none';
     deferredPrompt.prompt();
 
