@@ -128,23 +128,33 @@ if ('serviceWorker' in navigator) {
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'block';
 
-  installBtn.addEventListener('click', () => {
+// Перевіряємо, чи сайт запущено як додаток
+const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches 
+                           || window.navigator.standalone === true;
 
-    gtag_report_conversion();
+if (!isInStandaloneMode) {
+  // Обробка події beforeinstallprompt тільки якщо не PWA
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
 
-    installBtn.style.display = 'none';
-    deferredPrompt.prompt();
+    installBtn.addEventListener('click', () => {
+      gtag_report_conversion();
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
 
-    deferredPrompt.userChoice
-      .then((choiceResult) => {
+      deferredPrompt.userChoice.then((choiceResult) => {
         console.log('User choice:', choiceResult.outcome);
         deferredPrompt = null;
       });
+    });
   });
-});
+} else {
+  // Якщо сайт запущено як додаток, ховаємо кнопку
+  installBtn.style.display = 'none';
+}
+
 
