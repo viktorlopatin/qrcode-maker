@@ -190,46 +190,45 @@ if ('serviceWorker' in navigator) {
 }
 
 
-let deferredPrompt;
+
 const installBtn = document.getElementById('installBtn');
 const installBtnDiv = document.getElementById('installPrompt');
+let deferredPrompt = null;
 
+// слухаємо подію і зберігаємо
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  console.log("beforeinstallprompt зловили ✅");
+});
 
-
-
-// функція показати/сховати кнопку
+// перевірка режиму
 function updateInstallButton() {
   const isInStandaloneMode =
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  e.preventDefault();
-  deferredPrompt = e;
-
-  if (!isInStandaloneMode && deferredPrompt) {
-    // якщо сайт у браузері → показуємо кнопку
+  if (!isInStandaloneMode) {
+    // показуємо кнопку навіть якщо deferredPrompt ще немає
     installBtnDiv.style.display = 'block';
 
     installBtn.onclick = () => {
-      gtag_report_conversion();
-      deferredPrompt.prompt();
-
-      deferredPrompt.userChoice.then((choiceResult) => {
-        console.log('User choice:', choiceResult.outcome);
-        deferredPrompt = null;
-        installBtnDiv.style.display = 'none';
-      });
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          console.log('User choice:', choiceResult.outcome);
+          deferredPrompt = null;
+          installBtnDiv.style.display = 'none';
+        });
+      } else {
+        alert("Install prompt недоступний. Сайт ще не готовий до встановлення 🚀");
+      }
     };
   } else {
-    // якщо PWA → ховаємо
+    // у PWA кнопку ховаємо
     installBtnDiv.style.display = 'none';
   }
 }
 
 // перевірка щосекунди
 setInterval(updateInstallButton, 1000);
-
-
-
-
-
