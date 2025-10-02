@@ -10,6 +10,21 @@ const toast = document.getElementById('toast');
 
 let qrCanvas = null;
 
+
+function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+        'send_to': 'AW-17558991000/sw9JCOiAypsbEJjh47RB',
+        'event_callback': callback
+    });
+
+    return false;
+  }
+
 function showToast(msg, timeout = 1800){
   toast.textContent = msg;
   toast.classList.remove('hidden');
@@ -156,5 +171,7 @@ if (!isInStandaloneMode) {
   // Якщо сайт запущено як додаток, ховаємо кнопку
   installBtn.style.display = 'none';
 }
+
+
 
 
