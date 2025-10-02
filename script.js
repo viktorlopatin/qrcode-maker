@@ -143,6 +143,11 @@ if ('serviceWorker' in navigator) {
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
+installBtn.addEventListener('click', () => {
+      gtag_report_conversion();
+      alert("ok")
+    });
+
 
 // Перевіряємо, чи сайт запущено як додаток
 const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches 
@@ -157,14 +162,8 @@ if (!isInStandaloneMode) {
     installBtn.style.display = 'block';
 
     installBtn.addEventListener('click', () => {
-      gtag_report_conversion();
-      installBtn.style.display = 'none';
-      deferredPrompt.prompt();
-
-      deferredPrompt.userChoice.then((choiceResult) => {
-        console.log('User choice:', choiceResult.outcome);
-        deferredPrompt = null;
-      });
+      //gtag_report_conversion();
+      alert("ok")
     });
   });
 } else {
