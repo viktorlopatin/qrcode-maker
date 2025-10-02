@@ -393,38 +393,39 @@ button.primary.danger:hover {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(79,172,254,0.4), transparent 70%);
+  background: radial-gradient(circle, rgba(79,172,254,0.5), transparent 70%);
   transform: translate(-50%, -50%) scale(0);
   pointer-events: none;
   z-index: 999;
-  animation: waveExpand 1.2s ease-out forwards;
+  animation: waveExpand 1.4s ease-out forwards;
 }
 
 @keyframes waveExpand {
   0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { transform: translate(-50%, -50%) scale(18); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(27); opacity: 0; }
 }
 
 /* Частинки */
 .particle {
   position: fixed;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: rgba(79,172,254,0.8);
+  background: rgba(79,172,254,1);
   pointer-events: none;
   z-index: 1000;
   animation: particleMove 1.2s ease-out forwards;
+  box-shadow: 0 0 12px rgba(79,172,254,0.9), 0 0 24px rgba(0,242,254,0.7);
 }
 
 @keyframes particleMove {
   0% {
-    transform: translate(0,0) scale(1);
+    transform: translate(0,0) scale(1.2);
     opacity: 1;
   }
   100% {
-    transform: translate(var(--dx), var(--dy)) scale(0.3);
+    transform: translate(var(--dx), var(--dy)) scale(0.4);
     opacity: 0;
   }
 }

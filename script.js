@@ -78,28 +78,40 @@ makeBtn.addEventListener('click', (e) => {
 
   createQR(text);
 
-  // координати кнопки (щоб хвиля йшла з-під неї)
+  // координати кнопки
   const rect = makeBtn.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
 
-  // створюємо хвилю
-  const wave = document.createElement('div');
-  wave.className = 'wave';
-  wave.style.left = `${centerX}px`;
-  wave.style.top = `${centerY}px`;
-  document.body.appendChild(wave);
+  // створюємо кілька хвиль
+  for (let i = 0; i < 3; i++) {
+    const wave = document.createElement('div');
+    wave.className = 'wave';
+    wave.style.left = `${centerX}px`;
+    wave.style.top = `${centerY}px`;
+    wave.style.animationDelay = `${i * 0.2}s`; // відставання між хвилями
+    document.body.appendChild(wave);
+    setTimeout(() => wave.remove(), 1600 + i * 200);
+  }
 
-  // створюємо частинки
-  for (let i = 0; i < 20; i++) {
+  // створюємо світні частинки
+  for (let i = 0; i < 30; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = `${centerX}px`;
     particle.style.top = `${centerY}px`;
 
+    // випадковий колір (синій-бірюзовий-білий)
+    const colors = [
+      "rgba(79,172,254,1)", 
+      "rgba(0,242,254,1)", 
+      "rgba(255,255,255,0.9)"
+    ];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
     // випадковий розліт
     const angle = Math.random() * 2 * Math.PI;
-    const distance = 80 + Math.random() * 100;
+    const distance = 120 + Math.random() * 140; // сильніший вибух
     const dx = Math.cos(angle) * distance;
     const dy = Math.sin(angle) * distance;
 
@@ -107,17 +119,13 @@ makeBtn.addEventListener('click', (e) => {
     particle.style.setProperty('--dy', `${dy}px`);
 
     document.body.appendChild(particle);
-
-    // прибираємо частинки після анімації
-    setTimeout(() => particle.remove(), 1200);
+    setTimeout(() => particle.remove(), 1400);
   }
-
-  // прибираємо хвилю
-  setTimeout(() => wave.remove(), 1200);
 
   // показуємо модалку через 1с
   setTimeout(openModal, 1000);
 });
+
 
 
 
