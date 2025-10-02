@@ -195,32 +195,35 @@ const installBtn = document.getElementById('installBtn');
 const installBtnDiv = document.getElementById('installPrompt');
 
 
-// Перевіряємо, чи сайт запущено як додаток
-const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches 
-                           || window.navigator.standalone === true;
+// слухаємо подію beforeinstallprompt (лише коли не додаток)
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtnDiv.style.display = 'block';
 
-if (!isInStandaloneMode) {
-  // Обробка події beforeinstallprompt тільки якщо не PWA
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtnDiv.style.display = 'block';
+  installBtn.addEventListener('click', () => {
+    gtag_report_conversion();
+    deferredPrompt.prompt();
 
-    installBtn.addEventListener('click', () => {
-      gtag_report_conversion();
-      deferredPrompt.prompt();
-
-      deferredPrompt.userChoice.then((choiceResult) => {
-        console.log('User choice:', choiceResult.outcome);
-        deferredPrompt = null;
-      });
+    deferredPrompt.userChoice.then((choiceResult) => {
+      console.log('User choice:', choiceResult.outcome);
+      deferredPrompt = null;
     });
   });
-} else {
-  // Якщо сайт запущено як додаток, ховаємо кнопку
-  installBtnDiv.style.display = 'none';
-}
+});
+
+// 🔹 Перевірка раз у секунду
+setInterval(() => {
+  const isInStandaloneMode =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  if (isInStandaloneMode) {
+    // Якщо сайт вже у режимі PWA → ховаємо блок установки
+    installBtnDiv.style.display = 'none';
+  }
+}, 1000);
+
 
 
 
